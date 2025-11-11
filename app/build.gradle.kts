@@ -114,11 +114,11 @@ android {
         buildConfig = true
     }
 
-    // ✅ 16KB PAGE SIZE SUPPORT - CRITICAL FIX
+    // ✅ 16KB PAGE SIZE SUPPORT - PROPER FIX
     packaging {
         jniLibs {
-            // ✅ CHANGE TO TRUE for now (temporary workaround)
-            useLegacyPackaging = true
+            // Set to false to properly support 16KB page sizes
+            useLegacyPackaging = false
         }
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
