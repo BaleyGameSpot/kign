@@ -618,6 +618,10 @@ public class HomeDynamic_24_Fragment extends BaseFragment implements GetLocation
                 @Override
                 public void onItemClick(int position, JSONObject dataObject) {
                     if (dataObject != null) {
+                        // Check if this is a RIDE category with multiple services
+                        String eCatType = generalFunc.getJsonValueStr("eCatType", dataObject);
+                        boolean isRideCategory = eCatType.equalsIgnoreCase("RIDE") || eCatType.equalsIgnoreCase("RideDelivery");
+
                         if (dataObject.has("moreCategories")) {
                             openMoreDialog(generalFunc.getJsonValueStr("vCategoryTitle", dataObject), mActivity.generalFunc.getJsonArray("moreCategories", dataObject));
 
@@ -626,6 +630,9 @@ public class HomeDynamic_24_Fragment extends BaseFragment implements GetLocation
 
                         } else if (ServiceModule.isDeliveronly() && dataObject.has("DELIVERY_SERVICES")) {
                             openMoreDialog(generalFunc.retrieveLangLBl("", "LBL_DELIVERY_SEND_PARCEL_BTN_TXT"), mActivity.generalFunc.getJsonArray("DELIVERY_SERVICES", dataObject));
+
+                        } else if (dataObject.has("RIDE_SERVICES")) {
+                            openMoreDialog(generalFunc.getJsonValueStr("vCategoryTitle", dataObject), mActivity.generalFunc.getJsonArray("RIDE_SERVICES", dataObject));
 
                         } else if (dataObject.has("servicesArr")) {
                             JSONArray servicesArr = mActivity.generalFunc.getJsonArray("servicesArr", dataObject);
