@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.activity.ParentActivity;
 import com.adapter.files.MultiPaymentTypeRecyclerAdapter;
 import com.dialogs.BottomScheduleDialog;
+import com.paygate.PaygateAfricaHelper;
 import com.general.files.ActUtils;
 import com.general.files.CovidDialog;
 import com.general.files.DataParser;
@@ -159,6 +160,9 @@ public class MultiDeliveryThirdPhaseActivity extends ParentActivity implements M
     private static final int WEBVIEWPAYMENT = 001;
     boolean isDeliverNow = false;
 
+    // PayGate Africa integration
+    private PaygateAfricaHelper paygateHelper;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -262,6 +266,9 @@ public class MultiDeliveryThirdPhaseActivity extends ParentActivity implements M
         SYSTEM_PAYMENT_FLOW = generalFunc.getJsonValue("SYSTEM_PAYMENT_FLOW", userProfileJson);
         APP_PAYMENT_MODE = generalFunc.getJsonValue("APP_PAYMENT_MODE", userProfileJson);
         APP_PAYMENT_METHOD = generalFunc.getJsonValue("APP_PAYMENT_METHOD", userProfileJson);
+
+        // Initialize PayGate Africa helper
+        paygateHelper = new PaygateAfricaHelper(getActContext(), generalFunc);
 
     }
 
@@ -1155,6 +1162,11 @@ public class MultiDeliveryThirdPhaseActivity extends ParentActivity implements M
                 showPaymentBox(isOutstanding, isReqNow);
             }
         }
+        /*PayGate Africa Payment Gateway*/
+        else if (paygateHelper != null && paygateHelper.isPaygateAfricaEnabled()) {
+            // PayGate Africa is enabled - use it directly
+            showPaymentBox(isOutstanding, isReqNow);
+        }
     }
 
     public void showPaymentBox(boolean isOutstanding, boolean isReqNow) {
@@ -1631,5 +1643,38 @@ public class MultiDeliveryThirdPhaseActivity extends ParentActivity implements M
         couponCodeCloseImgView.setOnClickListener(new setOnClickList());
         appliedPromoHTxtView.setText(generalFunc.retrieveLangLBl("", "LBL_APPLIED_COUPON_CODE"));
         callFareDetailsRequest(false);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PaygateAfricaHelper.PAYGATE_AFRICA_REQUEST_CODE) {
+            // Handle PayGate Africa payment result
+            PaygateAfricaHelper.PaymentResult result = PaygateAfricaHelper.handlePaymentResult(resultCode, data);
+
+            if (result.isSuccess()) {
+                // Payment successful via PayGate Africa
+                String transactionId = result.getTransactionId();
+                String orderRef = result.getOrderRef();
+
+                Logger.d("PayGateSuccess", "Multi-delivery payment successful. Transaction ID: " + transactionId);
+
+                generalFunc.showMessage(getCurrentView(),
+                    generalFunc.retrieveLangLBl("", "LBL_PAYMENT_SUCCESS"));
+
+                // Continue with booking/order completion
+                // The specific completion logic would depend on your flow
+
+            } else {
+                // Payment failed or was cancelled
+                String reason = result.getFailureReason();
+
+                Logger.e("PayGateError", "Multi-delivery payment failed: " + reason);
+
+                generalFunc.showMessage(getCurrentView(),
+                    generalFunc.retrieveLangLBl("", "LBL_PAYMENT_FAILED") + ": " + reason);
+            }
+        }
     }
 }

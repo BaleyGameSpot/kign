@@ -52,9 +52,11 @@ import com.act.WindowInsetsHelper;
 import com.act.ListAddressActivity;
 import com.act.MyWalletActivity;
 import com.act.PaymentWebviewActivity;
+import com.act.PaygateAfricaPaymentActivity;
 import com.act.PrescriptionActivity;
 import com.act.VerifyInfoActivity;
 import com.activity.ParentActivity;
+import com.paygate.PaygateAfricaHelper;
 import com.adapter.files.MoreInstructionAdapter;
 import com.general.files.ActUtils;
 import com.general.files.DecimalDigitsInputFilter;
@@ -252,6 +254,9 @@ public class CheckOutActivity extends ParentActivity implements profileDelegate 
     //manage Outstanding.
     private AlertDialog outstanding_dialog;
     private boolean isAdjustPress;
+
+    // PayGate Africa integration
+    private PaygateAfricaHelper paygateHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -985,6 +990,8 @@ public class CheckOutActivity extends ParentActivity implements profileDelegate 
         checkboxWallet.setVisibility(View.GONE);
         walletAmountTxt.setVisibility(View.GONE);
 
+        // Initialize PayGate Africa helper
+        paygateHelper = new PaygateAfricaHelper(getActContext(), generalFunc);
 
     }
 
@@ -1425,6 +1432,33 @@ public class CheckOutActivity extends ParentActivity implements profileDelegate 
 
                 }
 
+            }
+        } else if (requestCode == PaygateAfricaHelper.PAYGATE_AFRICA_REQUEST_CODE) {
+            // Handle PayGate Africa payment result
+            PaygateAfricaHelper.PaymentResult result = PaygateAfricaHelper.handlePaymentResult(resultCode, data);
+
+            if (result.isSuccess()) {
+                // Payment successful via PayGate Africa
+                String transactionId = result.getTransactionId();
+                String orderRef = result.getOrderRef();
+
+                Logger.d("PayGateSuccess", "Payment successful. Transaction ID: " + transactionId);
+
+                // Show success message and navigate to order confirmation
+                generalFunc.showMessage(getCurrentView(),
+                    generalFunc.retrieveLangLBl("", "LBL_PAYMENT_SUCCESS"));
+
+                // Complete the order - go to order confirmation
+                orderCompleted();
+
+            } else {
+                // Payment failed or was cancelled
+                String reason = result.getFailureReason();
+
+                Logger.e("PayGateError", "Payment failed: " + reason);
+
+                generalFunc.showMessage(getCurrentView(),
+                    generalFunc.retrieveLangLBl("", "LBL_PAYMENT_FAILED") + ": " + reason);
             }
         }
 
@@ -1988,6 +2022,36 @@ public class CheckOutActivity extends ParentActivity implements profileDelegate 
 
             if (isAdjustPress) {
                 parameters.put("isAddOutstandingAmt", "Yes");
+            }
+
+            // Check if PayGate Africa should be used for online payments
+            if (!ePaymentOption.equalsIgnoreCase("Cash") && paygateHelper != null && paygateHelper.isPaygateAfricaEnabled()) {
+                // Use PayGate Africa for online payment
+                try {
+                    // Calculate total amount
+                    String totalAmount = String.format("%.2f", finalTotal);
+                    String currency = paygateHelper.getDefaultCurrency();
+                    String orderRef = "ORD-" + System.currentTimeMillis();
+
+                    // Store order parameters for later use after payment
+                    Bundle paymentBundle = new Bundle();
+                    paymentBundle.putString("amount", totalAmount);
+                    paymentBundle.putString("currency", currency);
+                    paymentBundle.putString("orderRef", orderRef);
+                    paymentBundle.putString("orderParameters", new JSONObject(parameters).toString());
+                    paymentBundle.putBoolean("handleResponse", true);
+
+                    // Launch PayGate Africa payment
+                    paygateHelper.initiatePaymentWithBundle(
+                        CheckOutActivity.this,
+                        paymentBundle,
+                        PaygateAfricaHelper.PAYGATE_AFRICA_REQUEST_CODE
+                    );
+                    return;
+                } catch (Exception e) {
+                    Logger.e("PayGateError", "Error initiating PayGate payment: " + e.getMessage());
+                    // Fall back to normal payment flow if PayGate fails
+                }
             }
 
             ApiHandler.execute(getActContext(), parameters, true, true, generalFunc, responseString -> {
