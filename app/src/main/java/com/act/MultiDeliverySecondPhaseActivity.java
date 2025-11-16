@@ -296,6 +296,7 @@ public class MultiDeliverySecondPhaseActivity extends ParentActivity implements 
         subLayout = (LinearLayout) findViewById(R.id.subLayout);
         headerArea = (LinearLayout) findViewById(R.id.headerArea);
         bottomArea = (FrameLayout) findViewById(R.id.bottomArea);
+        WindowInsetsHelper.applyBottomInset(bottomArea);
         iv_arrow = (ImageView) findViewById(R.id.iv_arrow);
         iv_current_loc = (CircularImageView) findViewById(R.id.iv_current_loc);
         addToClickHandler(iv_current_loc);

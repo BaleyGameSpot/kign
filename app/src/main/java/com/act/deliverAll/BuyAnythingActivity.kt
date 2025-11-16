@@ -31,6 +31,7 @@ import com.act.ListAddressActivity
 import com.act.MyWalletActivity
 import com.act.PaymentWebviewActivity
 import com.act.VerifyInfoActivity
+import com.act.WindowInsetsHelper
 import com.activity.ParentActivity
 import com.fontanalyzer.SystemFont
 import com.general.files.ActUtils
@@ -229,6 +230,7 @@ class BuyAnythingActivity : ParentActivity(), profileDelegate {
         errorImage = findViewById(R.id.errorImage)
         showDropDownArea = findViewById(R.id.showDropDownArea)
         bottomArea = findViewById<View>(R.id.bottomArea) as LinearLayout
+        WindowInsetsHelper.applyBottomInset(bottomArea)
         payArea = findViewById<View>(R.id.payArea) as LinearLayout
         if (generalFunc.memberId.equals("", ignoreCase = true)) {
             payArea!!.visibility = View.GONE
