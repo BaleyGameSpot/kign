@@ -5,65 +5,110 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/splash_gradient_background"
         android:orientation="vertical">
 
+        <!-- Decorative circles for visual appeal -->
+        <View
+            android:id="@+id/topCircle"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:alpha="0.1"
+            android:background="@drawable/splash_circle_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="-100dp"
+            android:layout_marginEnd="-100dp"/>
+
+        <View
+            android:id="@+id/bottomCircle"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:alpha="0.08"
+            android:background="@drawable/splash_circle_background"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="-75dp"
+            android:layout_marginStart="-75dp"/>
+
+        <!-- App Logo with enhanced styling -->
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/appImage"
-            android:layout_width="180dp"
-            android:layout_height="180dp"
-            android:src="@drawable/splash"
-            app:srcCompat="@drawable/splash"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/ic_app_logo"
+            app:srcCompat="@drawable/ic_app_logo"
+            android:scaleType="fitCenter"
+            android:elevation="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.8" />
+            app:layout_constraintVertical_bias="0.42" />
 
+        <!-- App branding section -->
         <LinearLayout
+            android:id="@+id/brandingLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="?android:actionBarSize"
+            android:layout_marginTop="@dimen/_24sdp"
             android:animateLayoutChanges="true"
+            android:gravity="center"
             android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@id/drawOverMsgTxtView"
-            app:layout_constraintEnd_toEndOf="@+id/appImage"
-            app:layout_constraintStart_toStartOf="@+id/appImage">
+            android:paddingStart="@dimen/_32sdp"
+            android:paddingEnd="@dimen/_32sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/appImage">
 
             <com.view.MTextView
                 android:id="@+id/appNameTxt"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/_2sdp"
+                android:layout_marginBottom="@dimen/_4sdp"
                 android:gravity="center"
                 android:text="@string/APP_TYPE_NAME"
                 android:textAllCaps="true"
-                android:textColor="#26A69A"
-                android:textSize="@dimen/_20ssp"
+                android:textColor="@color/splash_accent"
+                android:textSize="@dimen/_22ssp"
+                android:shadowColor="#80000000"
+                android:shadowDx="0"
+                android:shadowDy="2"
+                android:shadowRadius="4"
                 app:customTypeFace="@string/system_bold" />
+
+            <View
+                android:layout_width="60dp"
+                android:layout_height="3dp"
+                android:background="@color/splash_accent"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_marginBottom="@dimen/_12sdp"/>
 
             <com.view.anim.loader.AVLoadingIndicatorView
                 android:id="@+id/loaderView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_8sdp"
                 android:background="@android:color/transparent"
                 android:visibility="gone"
                 app:indicator="BallPulse"
-                app:indicator_color="@color/appThemeColor_1" />
+                app:indicator_color="@color/splash_accent" />
         </LinearLayout>
 
-
+        <!-- Bottom message view -->
         <com.view.MTextView
             android:id="@+id/drawOverMsgTxtView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#1C1C1C"
+            android:background="#90000000"
             android:gravity="center"
-            android:paddingStart="@dimen/_11sdp"
-            android:paddingTop="@dimen/_7sdp"
-            android:paddingEnd="@dimen/_11sdp"
-            android:paddingBottom="@dimen/_7sdp"
-            android:textColor="#FFFFFF"
+            android:paddingStart="@dimen/_16sdp"
+            android:paddingTop="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_16sdp"
+            android:paddingBottom="@dimen/_10sdp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12ssp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

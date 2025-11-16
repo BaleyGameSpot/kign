@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Text slide up animation for splash -->
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fillAfter="true"
+    android:interpolator="@android:anim/decelerate_interpolator">
+
+    <translate
+        android:fromYDelta="100%"
+        android:toYDelta="0%"
+        android:duration="800"
+        android:startOffset="400" />
+
+    <alpha
+        android:fromAlpha="0.0"
+        android:toAlpha="1.0"
+        android:duration="600"
+        android:startOffset="400" />
+</set>

@@ -154,4 +154,11 @@
     <color name="border_gray_vehicle">#E4E4E4</color>
     <color name="parking_item_divider">#E0E0E0</color>
 
+    <!-- Splash Screen Colors -->
+    <color name="splash_primary">#00351b</color> <!-- Dark Green - Main brand color -->
+    <color name="splash_background">#001a0d</color> <!-- Darker green for gradient start -->
+    <color name="splash_accent">#ffca0d</color> <!-- Golden yellow accent -->
+    <color name="splash_secondary">#005a2e</color> <!-- Medium green for gradient -->
+    <color name="splash_light">#008040</color> <!-- Light green for highlights -->
+
 </resources>

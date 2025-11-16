@@ -5,25 +5,57 @@
     android:viewportWidth="120"
     android:viewportHeight="120">
 
-    <!-- Modern App Icon with gradient -->
+    <!-- Outer glow circle -->
+    <path
+        android:fillColor="#30ffca0d"
+        android:pathData="M60,5 C88.17,5 111,27.83 111,56 C111,84.17 88.17,107 60,107 C31.83,107 9,84.17 9,56 C9,27.83 31.83,5 60,5 Z"/>
+
+    <!-- Main hexagon background -->
     <path
         android:fillColor="@color/splash_primary"
-        android:pathData="M60,10 L110,35 L110,85 L60,110 L10,85 L10,35 Z"/>
+        android:pathData="M60,12 L105,33 L105,75 L60,96 L15,75 L15,33 Z"/>
 
-    <!-- Inner design -->
+    <!-- Hexagon border/highlight -->
+    <path
+        android:strokeColor="@color/splash_accent"
+        android:strokeWidth="2"
+        android:fillColor="#00000000"
+        android:pathData="M60,12 L105,33 L105,75 L60,96 L15,75 L15,33 Z"/>
+
+    <!-- Inner decorative circle -->
     <path
         android:fillColor="@color/white"
-        android:pathData="M60,30 C71.05,30 80,38.95 80,50 C80,61.05 71.05,70 60,70 C48.95,70 40,61.05 40,50 C40,38.95 48.95,30 60,30 Z"/>
+        android:pathData="M60,28 C73.25,28 84,38.75 84,52 C84,65.25 73.25,76 60,76 C46.75,76 36,65.25 36,52 C36,38.75 46.75,28 60,28 Z"/>
 
-    <!-- Center accent -->
+    <!-- Center accent circle with gradient effect -->
     <path
         android:fillColor="@color/splash_accent"
-        android:pathData="M60,45 C63.31,45 66,47.69 66,51 C66,54.31 63.31,57 60,57 C56.69,57 54,54.31 54,51 C54,47.69 56.69,45 60,45 Z"/>
+        android:pathData="M60,42 C67.18,42 73,47.82 73,55 C73,62.18 67.18,68 60,68 C52.82,68 47,62.18 47,55 C47,47.82 52.82,42 60,42 Z"/>
 
-    <!-- Connecting lines -->
+    <!-- Inner shine effect -->
+    <path
+        android:fillColor="#50FFFFFF"
+        android:pathData="M60,45 C65.52,45 70,49.48 70,55 C70,57.21 69.21,59.24 67.9,60.83 C66.59,59.24 65.8,57.21 65.8,55 C65.8,51.8 63.2,49.2 60,49.2 C56.8,49.2 54.2,51.8 54.2,55 C54.2,57.21 53.41,59.24 52.1,60.83 C50.79,59.24 50,57.21 50,55 C50,49.48 54.48,45 60,45 Z"/>
+
+    <!-- Decorative connecting lines -->
     <path
         android:strokeColor="@color/white"
-        android:strokeWidth="3"
+        android:strokeWidth="2.5"
         android:strokeLineCap="round"
-        android:pathData="M60,70 L60,90 M45,78 L60,90 M75,78 L60,90"/>
+        android:pathData="M60,76 L60,88"/>
+    <path
+        android:strokeColor="@color/white"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:pathData="M43,82 L60,88"/>
+    <path
+        android:strokeColor="@color/white"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:pathData="M77,82 L60,88"/>
+
+    <!-- Accent dots at connection points -->
+    <path
+        android:fillColor="@color/splash_accent"
+        android:pathData="M60,88 C61.66,88 63,89.34 63,91 C63,92.66 61.66,94 60,94 C58.34,94 57,92.66 57,91 C57,89.34 58.34,88 60,88 Z"/>
 </vector>
