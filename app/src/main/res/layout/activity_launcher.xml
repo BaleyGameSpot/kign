@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <!-- Data binding can be used here if needed -->
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/splash_gradient_background"
+        android:fitsSystemWindows="false">
+
+        <!-- Top decorative element -->
+        <View
+            android:id="@+id/topDecor"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_marginTop="-150dp"
+            android:layout_marginEnd="-150dp"
+            android:background="@drawable/splash_circle_background"
+            android:alpha="0.15"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Bottom decorative element -->
+        <View
+            android:id="@+id/bottomDecor"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_marginStart="-125dp"
+            android:layout_marginBottom="-125dp"
+            android:background="@drawable/splash_circle_background"
+            android:alpha="0.1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <!-- Logo container -->
+        <FrameLayout
+            android:id="@+id/logoContainer"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:background="@drawable/splash_circle_background"
+            android:elevation="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.4">
+
+            <ImageView
+                android:id="@+id/appLogo"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/ic_app_logo"
+                android:scaleType="fitCenter"/>
+
+        </FrameLayout>
+
+        <!-- App Name with beautiful typography -->
+        <TextView
+            android:id="@+id/appNameTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/app_name"
+            android:textColor="@color/white"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.05"
+            android:elevation="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/logoContainer" />
+
+        <!-- Tagline -->
+        <TextView
+            android:id="@+id/taglineTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Your Journey Begins Here"
+            android:fontFamily="sans-serif-light"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:alpha="0.9"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/appNameTxt" />
+
+        <!-- Loading indicator -->
+        <ProgressBar
+            android:id="@+id/loadingProgress"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="80dp"
+            android:indeterminateTint="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <!-- Status message -->
+        <TextView
+            android:id="@+id/drawOverMsgTxtView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="48dp"
+            android:layout_marginEnd="48dp"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="sans-serif"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            android:alpha="0.8"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="@string/checking_configuration"
+            tools:visibility="visible" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

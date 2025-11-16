@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+
+    <!-- Modern App Icon with gradient -->
+    <path
+        android:fillColor="@color/splash_primary"
+        android:pathData="M60,10 L110,35 L110,85 L60,110 L10,85 L10,35 Z"/>
+
+    <!-- Inner design -->
+    <path
+        android:fillColor="@color/white"
+        android:pathData="M60,30 C71.05,30 80,38.95 80,50 C80,61.05 71.05,70 60,70 C48.95,70 40,61.05 40,50 C40,38.95 48.95,30 60,30 Z"/>
+
+    <!-- Center accent -->
+    <path
+        android:fillColor="@color/splash_accent"
+        android:pathData="M60,45 C63.31,45 66,47.69 66,51 C66,54.31 63.31,57 60,57 C56.69,57 54,54.31 54,51 C54,47.69 56.69,45 60,45 Z"/>
+
+    <!-- Connecting lines -->
+    <path
+        android:strokeColor="@color/white"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:pathData="M60,70 L60,90 M45,78 L60,90 M75,78 L60,90"/>
+</vector>
