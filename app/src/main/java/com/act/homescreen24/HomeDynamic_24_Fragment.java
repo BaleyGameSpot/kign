@@ -645,7 +645,6 @@ public class HomeDynamic_24_Fragment extends BaseFragment implements GetLocation
                             }
                         } else {
                             String action = mActivity.generalFunc.getJsonValueStr("action", dataObject);
-                            String eCatType = generalFunc.getJsonValueStr("eCatType", dataObject);
 
                             if (eCatType.equalsIgnoreCase("AddStop") || eCatType.equalsIgnoreCase("RIDE") &&
                                     (dataObject.has("vSubTitle") && Utils.checkText(generalFunc.getJsonValueStr("vSubTitle", dataObject))) ||
