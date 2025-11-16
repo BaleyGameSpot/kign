@@ -18,12 +18,12 @@ android {
     }
 
     namespace = "com.opleq.user"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.opleq.user"
         minSdk = 23
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -151,7 +151,8 @@ dependencies {
     implementation(libs.play.services.ads)
     implementation(libs.play.services.auth)
 
-    // Firebase
+    // Firebase (using BOM for version management)
+    implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.messaging)
     implementation(libs.firebase.auth)
     implementation(libs.firebase.crashlytics)
