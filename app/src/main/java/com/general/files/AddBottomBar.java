@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat;
 import com.act.CommonDeliveryTypeSelectionActivity;
 import com.opleq.user.R;
 import com.act.RideDeliveryActivity;
+import com.act.WindowInsetsHelper;
 import com.act.deliverAll.FoodDeliveryHomeActivity;
 import com.act.deliverAll.ServiceHomeActivity;
 import com.model.ServiceModule;
@@ -59,6 +60,12 @@ public class AddBottomBar {
             homeArea = view.findViewById(R.id.homeArea);
             historyArea = view.findViewById(R.id.historyArea);
             walletArea = view.findViewById(R.id.walletArea);
+
+            // Apply bottom window insets to prevent navigation from being cut off by system navigation bar
+            View bottomMenuArea = view.findViewById(R.id.bottomMenuArea);
+            if (bottomMenuArea != null) {
+                WindowInsetsHelper.applyBottomInset(bottomMenuArea);
+            }
 
             profileArea.setOnClickListener(new setOnClickList());
             homeArea.setOnClickListener(new setOnClickList());

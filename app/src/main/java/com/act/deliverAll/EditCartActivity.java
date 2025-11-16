@@ -20,6 +20,7 @@ import androidx.cardview.widget.CardView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.act.PrescriptionActivity;
+import com.act.WindowInsetsHelper;
 import com.activity.ParentActivity;
 import com.adapter.files.deliverAll.MultiItemOptionAddonPagerAdapter;
 import com.fragments.deliverall.DeliverAllServiceCategory;
@@ -194,6 +195,7 @@ public class EditCartActivity extends ParentActivity {
         itemContainer = findViewById(R.id.itemContainer);
         nocartImage = findViewById(R.id.nocartImage);
         bottomArea = findViewById(R.id.bottomArea);
+        WindowInsetsHelper.applyBottomInset(bottomArea);
         totalVTxt = findViewById(R.id.totalVTxt);
         totalHTxt = findViewById(R.id.totalHTxt);
         mainScrollView = findViewById(R.id.mainScrollView);

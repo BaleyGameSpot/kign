@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat;
 import com.act.CommonDeliveryTypeSelectionActivity;
 import com.act.RideDeliveryActivity;
 import com.act.UberXHomeActivity;
+import com.act.WindowInsetsHelper;
 import com.act.deliverAll.FoodDeliveryHomeActivity;
 import com.act.deliverAll.ServiceHomeActivity;
 import com.activity.ParentActivity;
@@ -61,6 +62,10 @@ public class AddBottomBarNew {
 
         binding.bottomBar.setVisibility(View.GONE);
         binding.bottomArea.setVisibility(View.GONE);
+
+        // Apply bottom window insets to prevent navigation from being cut off by system navigation bar
+        WindowInsetsHelper.applyBottomInset(binding.getRoot());
+
         if (isNewHome_24) {
             binding.bottomBar.setVisibility(View.VISIBLE);
             ArrayList<BottomBarItem> bottomBarItems = new ArrayList<>();

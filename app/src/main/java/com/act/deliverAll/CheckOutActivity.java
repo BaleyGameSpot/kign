@@ -48,6 +48,7 @@ import com.act.AccountverificationActivity;
 import com.act.AddAddressActivity;
 import com.act.ContactUsActivity;
 import com.act.CouponActivity;
+import com.act.WindowInsetsHelper;
 import com.act.ListAddressActivity;
 import com.act.MyWalletActivity;
 import com.act.PaymentWebviewActivity;
@@ -833,6 +834,7 @@ public class CheckOutActivity extends ParentActivity implements profileDelegate 
         }
 
         bottomArea = (LinearLayout) findViewById(R.id.bottomArea);
+        WindowInsetsHelper.applyBottomInset(bottomArea);
         titleTxt = (MTextView) findViewById(R.id.titleTxt);
         promocodeArea = (LinearLayout) findViewById(R.id.promocodeArea);
         promocodeappliedHTxt = (MTextView) findViewById(R.id.promocodeappliedHTxt);

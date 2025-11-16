@@ -116,6 +116,7 @@ public class MoreInfoActivity extends ParentActivity {
 
         titleTxt = (MTextView) findViewById(R.id.titleTxt);
         bottomCartView = (RelativeLayout) findViewById(R.id.bottomCartView);
+        WindowInsetsHelper.applyBottomInset(bottomCartView);
         addToClickHandler(bottomCartView);
         cartView = (CounterFab) findViewById(R.id.cartView);
         itemNpricecartTxt = (MTextView) findViewById(R.id.itemNpricecartTxt);

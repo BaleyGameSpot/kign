@@ -39,6 +39,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.ViewPagerCards.CardPagerAdapter;
 import com.ViewPagerCards.ShadowTransformer;
 import com.act.PrescriptionActivity;
+import com.act.WindowInsetsHelper;
 import com.activity.ParentActivity;
 import com.adapter.files.deliverAll.MenuAdapter;
 import com.adapter.files.deliverAll.RecommendedListAdapter;
@@ -373,6 +374,7 @@ public class RestaurantAllDetailsNewActivity extends ParentActivity implements A
         cartFoodImgView = findViewById(R.id.cartFoodImgView);
 //        cartFoodImgView.setOnClickListener(new setOnClickList());
         bottomCartView = (LinearLayout) findViewById(R.id.bottomCartView);
+        WindowInsetsHelper.applyBottomInset(bottomCartView);
         addToClickHandler(bottomCartView);
         itemNpricecartTxt = (MTextView) findViewById(R.id.itemNpricecartTxt);
         viewCartTxt = (MTextView) findViewById(R.id.viewCartTxt);
