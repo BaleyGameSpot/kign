@@ -492,6 +492,74 @@ public class RideDeliveryActivity extends ParentActivity implements ViewPager.On
 
     }
 
+    /**
+     * Merges all categories including moreCategories from the API response into itemList
+     * This ensures all ride/delivery services are displayed in the grid
+     */
+    private void mergeAllCategoriesFromResponse(JSONObject responseObj) {
+        try {
+            if (responseObj != null) {
+                JSONArray messageArr = generalFunc.getJsonArray(Utils.message_str, responseObj);
+                JSONArray moreCategories = generalFunc.getJsonArray("moreCategories", responseObj);
+
+                // First add all items from the main message array
+                if (messageArr != null) {
+                    for (int i = 0; i < messageArr.length(); i++) {
+                        JSONObject obj_temp = generalFunc.getJsonObject(messageArr, i);
+                        addCategoryToList(obj_temp);
+                    }
+                }
+
+                // Then recursively add all items from moreCategories
+                collectAllCategoriesFromJSON(moreCategories);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Helper method to add a category JSON object to itemList
+     */
+    private void addCategoryToList(JSONObject obj_temp) {
+        if (obj_temp != null) {
+            HashMap<String, String> itemObj = new HashMap<>();
+            itemObj.put("vCategory", generalFunc.getJsonValueStr("vCategory", obj_temp));
+            itemObj.put("vImage", generalFunc.getJsonValueStr("vImage", obj_temp));
+            itemObj.put("eCatType", generalFunc.getJsonValueStr("eCatType", obj_temp));
+            itemObj.put("iVehicleCategoryId", generalFunc.getJsonValueStr("iVehicleCategoryId", obj_temp));
+
+            itemList.add(itemObj);
+            if (generalFunc.getJsonValueStr("eCatType", obj_temp).equalsIgnoreCase("Ride")) {
+                isRide = true;
+            }
+        }
+    }
+
+    /**
+     * Recursively collects all categories including nested moreCategories
+     */
+    private void collectAllCategoriesFromJSON(JSONArray sourceArray) {
+        try {
+            if (sourceArray != null) {
+                for (int i = 0; i < sourceArray.length(); i++) {
+                    JSONObject category = generalFunc.getJsonObject(sourceArray, i);
+                    if (category != null) {
+                        addCategoryToList(category);
+
+                        // Check for nested moreCategories
+                        if (category.has("moreCategories")) {
+                            JSONArray nestedMore = generalFunc.getJsonArray("moreCategories", category);
+                            collectAllCategoriesFromJSON(nestedMore);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void getDetails() {
         HashMap<String, String> parameters = new HashMap<String, String>();
         parameters.put("type", "getServiceCategoryDetails");
@@ -520,21 +588,8 @@ public class RideDeliveryActivity extends ParentActivity implements ViewPager.On
                     // bottomMenuArea.setVisibility(View.VISIBLE);
 
                     itemList = new ArrayList<>();
-                    JSONArray itemarr = generalFunc.getJsonArray(Utils.message_str, responseObj);
-                    for (int i = 0; i < itemarr.length(); i++) {
-                        JSONObject obj_temp = generalFunc.getJsonObject(itemarr, i);
-                        HashMap<String, String> itemObj = new HashMap<>();
-                        itemObj.put("vCategory", generalFunc.getJsonValueStr("vCategory", obj_temp));
-                        itemObj.put("vImage", generalFunc.getJsonValueStr("vImage", obj_temp));
-                        itemObj.put("eCatType", generalFunc.getJsonValueStr("eCatType", obj_temp));
-                        itemObj.put("iVehicleCategoryId", generalFunc.getJsonValueStr("iVehicleCategoryId", obj_temp));
-
-                        itemList.add(itemObj);
-                        if (generalFunc.getJsonValueStr("eCatType", obj_temp).equalsIgnoreCase("Ride")) {
-                            isRide = true;
-                        }
-
-                    }
+                    // Merge all categories including moreCategories into itemList
+                    mergeAllCategoriesFromResponse(responseObj);
 
 
                     JSONArray bannerarr = generalFunc.getJsonArray("bannerArray", responseObj);
