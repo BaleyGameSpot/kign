@@ -39,6 +39,8 @@ public class ServicesFragment extends BaseFragment {
     private ServicesAdapter servicesAdapter;
     private JSONArray serviceDataArray = new JSONArray();
     private ServerTask currentCallExeWebServer;
+    private String categoryId = null;
+    private String categoryName = null;
 
     @Nullable
     @Override
@@ -46,6 +48,12 @@ public class ServicesFragment extends BaseFragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_ride_delivery_services, container, false);
 
         generalFunc = mActivity.generalFunc;
+
+        // Get category filter arguments if provided
+        if (getArguments() != null) {
+            categoryId = getArguments().getString("categoryId");
+            categoryName = getArguments().getString("categoryName");
+        }
 
         initializeView();
         serviceList();
@@ -66,7 +74,13 @@ public class ServicesFragment extends BaseFragment {
         ImageView backImgView = binding.getRoot().findViewById(R.id.backImgView);
         backImgView.setVisibility(View.GONE);
         MTextView titleTxt = binding.getRoot().findViewById(R.id.titleTxt);
-        titleTxt.setText(generalFunc.retrieveLangLBl("", "LBL_SERVICES"));
+
+        // Show category name in title if filtering by category
+        if (Utils.checkText(categoryName)) {
+            titleTxt.setText(categoryName);
+        } else {
+            titleTxt.setText(generalFunc.retrieveLangLBl("", "LBL_SERVICES"));
+        }
     }
 
     private void serviceList() {
@@ -167,6 +181,11 @@ public class ServicesFragment extends BaseFragment {
 
         HashMap<String, String> parameters = new HashMap<>();
         parameters.put("type", "getAllServiceCategories");
+
+        // Add category filter if provided
+        if (Utils.checkText(categoryId)) {
+            parameters.put("iCategoryId", categoryId);
+        }
 
         if (currentCallExeWebServer != null) {
             currentCallExeWebServer.cancel(true);

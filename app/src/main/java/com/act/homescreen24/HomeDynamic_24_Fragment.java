@@ -678,7 +678,16 @@ public class HomeDynamic_24_Fragment extends BaseFragment implements GetLocation
 
                 @Override
                 public void onSeeAllClick(int position, JSONObject itemObject) {
-                    mActivity.addBottomBarNew.manualClickView(1);
+                    // Extract category information from itemObject
+                    String categoryId = generalFunc.getJsonValueStr("iCategoryId", itemObject);
+                    String categoryName = generalFunc.getJsonValueStr("vCategoryTitle", itemObject);
+
+                    // Pass category data to services fragment
+                    if (Utils.checkText(categoryId)) {
+                        mActivity.openServicesWithCategory(categoryId, categoryName);
+                    } else {
+                        mActivity.addBottomBarNew.manualClickView(1);
+                    }
                 }
 
                 @Override
