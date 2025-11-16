@@ -86,7 +86,7 @@ public class GridView23Adapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         if (holder instanceof BoxViewHolder vHolder) {
 
             //
-            if (ServiceModule.isServiceProviderOnly() || (mActivity.generalFunc.isDeliverOnlyEnabled() && ServiceModule.DeliverAll) || ServiceModule.isRideOnly()) {
+            if (ServiceModule.isServiceProviderOnly() || (mActivity.generalFunc.isDeliverOnlyEnabled() && ServiceModule.DeliverAll) || ServiceModule.Taxi) {
                 vHolder.binding.boxView.setBackground(ContextCompat.getDrawable(mActivity, R.drawable.grid_bg_sp));
 
                 String vBgColor = mActivity.generalFunc.getJsonValueStr("vBgColor", layoutDetailsObj);
