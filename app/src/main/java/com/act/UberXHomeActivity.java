@@ -381,6 +381,10 @@ public class UberXHomeActivity extends ParentActivity {
     }
 
     private void openServicesFragment() {
+        openServicesWithCategory(null, null);
+    }
+
+    public void openServicesWithCategory(String categoryId, String categoryName) {
         isServicesFrg = true;
         manageView(false);
         if (generalFunc.getMemberId().equals("")) {
@@ -388,9 +392,17 @@ public class UberXHomeActivity extends ParentActivity {
             return;
         }
 
-        if (myServicesFragment == null) {
+        // Create new fragment with category filter if category is provided
+        if (Utils.checkText(categoryId)) {
+            myServicesFragment = new ServicesFragment();
+            Bundle args = new Bundle();
+            args.putString("categoryId", categoryId);
+            args.putString("categoryName", categoryName);
+            myServicesFragment.setArguments(args);
+        } else if (myServicesFragment == null) {
             myServicesFragment = new ServicesFragment();
         }
+
         openPageFrag(2, myServicesFragment);
         bottomBtnPos = 2;
     }
