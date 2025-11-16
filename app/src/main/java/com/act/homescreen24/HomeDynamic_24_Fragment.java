@@ -631,7 +631,7 @@ public class HomeDynamic_24_Fragment extends BaseFragment implements GetLocation
                         } else if (ServiceModule.isDeliveronly() && dataObject.has("DELIVERY_SERVICES")) {
                             openMoreDialog(generalFunc.retrieveLangLBl("", "LBL_DELIVERY_SEND_PARCEL_BTN_TXT"), mActivity.generalFunc.getJsonArray("DELIVERY_SERVICES", dataObject));
 
-                        } else if (dataObject.has("RIDE_SERVICES")) {
+                        } else if (ServiceModule.isRideOnly() && dataObject.has("RIDE_SERVICES")) {
                             openMoreDialog(generalFunc.getJsonValueStr("vCategoryTitle", dataObject), mActivity.generalFunc.getJsonArray("RIDE_SERVICES", dataObject));
 
                         } else if (dataObject.has("servicesArr")) {
