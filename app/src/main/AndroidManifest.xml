@@ -510,6 +510,9 @@
             android:name="com.act.PaymentWebviewActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name="com.act.PaygateAfricaPaymentActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="com.act.deliverAll.FindStoreActivity"
             android:screenOrientation="portrait" />
         <activity
