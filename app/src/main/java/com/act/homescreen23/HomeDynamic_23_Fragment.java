@@ -652,8 +652,71 @@ public class HomeDynamic_23_Fragment extends BaseFragment implements GetLocation
     }
 
     ///////////// ===================================================================================
+    /**
+     * Merges all categories including moreCategories into servicesArr to display all categories at once
+     */
+    private void mergeAllCategories(JSONArray homeScreenData) {
+        try {
+            if (homeScreenData != null) {
+                for (int i = 0; i < homeScreenData.length(); i++) {
+                    JSONObject item = generalFunc.getJsonObject(homeScreenData, i);
+                    if (item != null && item.has("servicesArr") && item.has("moreCategories")) {
+                        JSONArray servicesArr = generalFunc.getJsonArray("servicesArr", item);
+                        JSONArray moreCategories = generalFunc.getJsonArray("moreCategories", item);
+
+                        // Recursively collect all categories
+                        JSONArray allCategories = new JSONArray();
+                        if (servicesArr != null) {
+                            for (int j = 0; j < servicesArr.length(); j++) {
+                                allCategories.put(servicesArr.get(j));
+                            }
+                        }
+                        collectAllCategories(moreCategories, allCategories);
+
+                        // Update the item with all categories
+                        item.put("servicesArr", allCategories);
+                        // Remove moreCategories as all are now in servicesArr
+                        item.remove("moreCategories");
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Recursively collects all categories including nested moreCategories
+     */
+    private void collectAllCategories(JSONArray sourceArray, JSONArray targetArray) {
+        try {
+            if (sourceArray != null) {
+                for (int i = 0; i < sourceArray.length(); i++) {
+                    JSONObject category = generalFunc.getJsonObject(sourceArray, i);
+                    if (category != null) {
+                        targetArray.put(category);
+
+                        // Check for nested moreCategories
+                        if (category.has("moreCategories")) {
+                            JSONArray nestedMore = generalFunc.getJsonArray("moreCategories", category);
+                            collectAllCategories(nestedMore, targetArray);
+                            // Remove nested moreCategories
+                            category.remove("moreCategories");
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void manageHomeScreenView(String responseString) {
         homeScreenDataArray = generalFunc.getJsonArray("HOME_SCREEN_DATA", responseString);
+
+        // Merge all categories including moreCategories into servicesArr
+        mergeAllCategories(homeScreenDataArray);
+
         if (main23Adapter == null) {
             main23Adapter = new Main23AdapterNew(mActivity, homeScreenDataArray, new Main23AdapterNew.OnClickListener() {
                 @Override
