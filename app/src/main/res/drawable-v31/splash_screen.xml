@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Android 12+ Splash Screen -->
+<!-- Android 12+ Enhanced Splash Screen -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@color/splash_primary"/>
+    <!-- Beautiful gradient background -->
+    <item android:drawable="@drawable/splash_gradient_background"/>
+
+    <!-- App logo centered with proper size -->
     <item
-        android:width="200dp"
-        android:height="200dp"
+        android:width="220dp"
+        android:height="220dp"
         android:drawable="@drawable/ic_app_logo"
         android:gravity="center"/>
 </layer-list>

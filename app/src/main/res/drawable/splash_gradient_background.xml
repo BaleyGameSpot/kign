@@ -1,9 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <gradient
-        android:angle="135"
-        android:startColor="@color/splash_background"
-        android:centerColor="@color/splash_primary"
-        android:endColor="@color/splash_accent"
-        android:type="linear"/>
-</shape>
+<!-- Beautiful gradient background for splash screen -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Base gradient -->
+    <item>
+        <shape>
+            <gradient
+                android:angle="135"
+                android:startColor="@color/splash_background"
+                android:centerColor="@color/splash_primary"
+                android:endColor="@color/splash_secondary"
+                android:type="linear"/>
+        </shape>
+    </item>
+
+    <!-- Overlay gradient for depth -->
+    <item>
+        <shape>
+            <gradient
+                android:angle="315"
+                android:startColor="#20ffca0d"
+                android:centerColor="#00000000"
+                android:endColor="#30ffca0d"
+                android:type="linear"/>
+        </shape>
+    </item>
+</layer-list>
