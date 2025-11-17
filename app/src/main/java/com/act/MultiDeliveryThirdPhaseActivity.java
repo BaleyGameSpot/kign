@@ -1611,6 +1611,32 @@ public class MultiDeliveryThirdPhaseActivity extends ParentActivity implements M
             } else {
                 chooseDateTime();
             }
+        } else if (requestCode == PaygateAfricaHelper.PAYGATE_AFRICA_REQUEST_CODE) {
+            // Handle PayGate Africa payment result
+            PaygateAfricaHelper.PaymentResult result = PaygateAfricaHelper.handlePaymentResult(resultCode, data);
+
+            if (result.isSuccess()) {
+                // Payment successful via PayGate Africa
+                String transactionId = result.getTransactionId();
+                String orderRef = result.getOrderRef();
+
+                Logger.d("PayGateSuccess", "Multi-delivery payment successful. Transaction ID: " + transactionId);
+
+                generalFunc.showMessage(backImgView,
+                    generalFunc.retrieveLangLBl("", "LBL_PAYMENT_SUCCESS"));
+
+                // Continue with booking/order completion
+                checkDetails();
+
+            } else {
+                // Payment failed or was cancelled
+                String reason = result.getFailureReason();
+
+                Logger.e("PayGateError", "Multi-delivery payment failed: " + reason);
+
+                generalFunc.showMessage(backImgView,
+                    generalFunc.retrieveLangLBl("", "LBL_PAYMENT_FAILED") + ": " + reason);
+            }
         }
     }
 
@@ -1643,38 +1669,5 @@ public class MultiDeliveryThirdPhaseActivity extends ParentActivity implements M
         couponCodeCloseImgView.setOnClickListener(new setOnClickList());
         appliedPromoHTxtView.setText(generalFunc.retrieveLangLBl("", "LBL_APPLIED_COUPON_CODE"));
         callFareDetailsRequest(false);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == PaygateAfricaHelper.PAYGATE_AFRICA_REQUEST_CODE) {
-            // Handle PayGate Africa payment result
-            PaygateAfricaHelper.PaymentResult result = PaygateAfricaHelper.handlePaymentResult(resultCode, data);
-
-            if (result.isSuccess()) {
-                // Payment successful via PayGate Africa
-                String transactionId = result.getTransactionId();
-                String orderRef = result.getOrderRef();
-
-                Logger.d("PayGateSuccess", "Multi-delivery payment successful. Transaction ID: " + transactionId);
-
-                generalFunc.showMessage(getCurrentView(),
-                    generalFunc.retrieveLangLBl("", "LBL_PAYMENT_SUCCESS"));
-
-                // Continue with booking/order completion
-                // The specific completion logic would depend on your flow
-
-            } else {
-                // Payment failed or was cancelled
-                String reason = result.getFailureReason();
-
-                Logger.e("PayGateError", "Multi-delivery payment failed: " + reason);
-
-                generalFunc.showMessage(getCurrentView(),
-                    generalFunc.retrieveLangLBl("", "LBL_PAYMENT_FAILED") + ": " + reason);
-            }
-        }
     }
 }
