@@ -1445,7 +1445,7 @@ public class CheckOutActivity extends ParentActivity implements profileDelegate 
                 Logger.d("PayGateSuccess", "Payment successful. Transaction ID: " + transactionId);
 
                 // Show success message and navigate to order confirmation
-                generalFunc.showMessage(getCurrentView(),
+                generalFunc.showMessage(backImgView,
                     generalFunc.retrieveLangLBl("", "LBL_PAYMENT_SUCCESS"));
 
                 // Complete the order - go to order confirmation
@@ -1457,7 +1457,7 @@ public class CheckOutActivity extends ParentActivity implements profileDelegate 
 
                 Logger.e("PayGateError", "Payment failed: " + reason);
 
-                generalFunc.showMessage(getCurrentView(),
+                generalFunc.showMessage(backImgView,
                     generalFunc.retrieveLangLBl("", "LBL_PAYMENT_FAILED") + ": " + reason);
             }
         }

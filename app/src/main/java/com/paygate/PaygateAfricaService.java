@@ -68,7 +68,8 @@ public class PaygateAfricaService {
      */
     private void loadCredentials() {
         try {
-            JSONObject userProfile = generalFunc.getUserProfileJson();
+            String userProfileJsonStr = generalFunc.retrieveValue(com.utils.Utils.USER_PROFILE_JSON);
+            JSONObject userProfile = generalFunc.getJsonObject(userProfileJsonStr);
             if (userProfile != null) {
                 appId = generalFunc.getJsonValueStr("PAYGATE_AFRICA_APP_ID", userProfile);
                 clientId = generalFunc.getJsonValueStr("PAYGATE_AFRICA_CLIENT_ID", userProfile);

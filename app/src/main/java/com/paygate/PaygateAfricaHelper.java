@@ -41,7 +41,8 @@ public class PaygateAfricaHelper {
      */
     public boolean isPaygateAfricaEnabled() {
         try {
-            JSONObject userProfile = generalFunc.getUserProfileJson();
+            String userProfileJsonStr = generalFunc.retrieveValue(com.utils.Utils.USER_PROFILE_JSON);
+            JSONObject userProfile = generalFunc.getJsonObject(userProfileJsonStr);
             if (userProfile != null) {
                 String enabled = generalFunc.getJsonValueStr("ENABLE_PAYGATE_AFRICA", userProfile);
                 String appId = generalFunc.getJsonValueStr("PAYGATE_AFRICA_APP_ID", userProfile);
@@ -182,7 +183,8 @@ public class PaygateAfricaHelper {
      */
     public String getDefaultCurrency() {
         try {
-            JSONObject userProfile = generalFunc.getUserProfileJson();
+            String userProfileJsonStr = generalFunc.retrieveValue(com.utils.Utils.USER_PROFILE_JSON);
+            JSONObject userProfile = generalFunc.getJsonObject(userProfileJsonStr);
             if (userProfile != null) {
                 return generalFunc.getJsonValueStr("vCurrencyPassenger", userProfile);
             }
