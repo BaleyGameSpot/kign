@@ -1459,7 +1459,7 @@ public class CabSelectionFragment extends BaseFragment implements CabTypeAdapter
     public void findRoute(String etaVal) {
 
         if (mainAct != null && mainAct.isMultiDelivery()) {
-            if (getMap() != null) {
+            if (getMap() != null && mainAct.pickUpLocation != null) {
                 getMap().moveCamera(new LatLng(mainAct.pickUpLocation.getLatitude(), mainAct.pickUpLocation.getLongitude(), Utils.defaultZomLevel));
             }
 
@@ -1549,7 +1549,25 @@ public class CabSelectionFragment extends BaseFragment implements CabTypeAdapter
 
                 String originLoc = null;
                 if (mainAct != null) {
-                    originLoc = mainAct.getPickUpLocation().getLatitude() + "," + mainAct.getPickUpLocation().getLongitude();
+                    // Validate that pickUpLocation is not null and has valid coordinates
+                    if (mainAct.getPickUpLocation() == null) {
+                        Logger.d("findRoute", "Pickup location is null, skipping direction API call");
+                        mProgressBar.setIndeterminate(false);
+                        mProgressBar.setVisibility(View.INVISIBLE);
+                        return;
+                    }
+
+                    // Check if pickup location has valid coordinates (not 0.0, 0.0)
+                    double pickupLat = mainAct.getPickUpLocation().getLatitude();
+                    double pickupLng = mainAct.getPickUpLocation().getLongitude();
+                    if (pickupLat == 0.0 && pickupLng == 0.0) {
+                        Logger.d("findRoute", "Pickup location has invalid coordinates (0.0, 0.0), skipping direction API call");
+                        mProgressBar.setIndeterminate(false);
+                        mProgressBar.setVisibility(View.INVISIBLE);
+                        return;
+                    }
+
+                    originLoc = pickupLat + "," + pickupLng;
 
                     String destLoc = null;
                     if (mainAct.destLocation != null) {
@@ -1558,21 +1576,21 @@ public class CabSelectionFragment extends BaseFragment implements CabTypeAdapter
                         hashMap.put("d_longitude", mainAct.destLocation.getLongitude() + "");
 
                         if (mainAct.destLocation.getLatitude() == 0.0) {
-                            hashMap.put("d_latitude", mainAct.getPickUpLocation().getLatitude() + "");
-                            hashMap.put("d_longitude", mainAct.getPickUpLocation().getLongitude() + "");
+                            hashMap.put("d_latitude", pickupLat + "");
+                            hashMap.put("d_longitude", pickupLng + "");
 
                         }
 
 
                     } else {
-                        destLoc = mainAct.getPickUpLocation().getLatitude() + "," + mainAct.getPickUpLocation().getLongitude();
-                        hashMap.put("d_latitude", mainAct.getPickUpLocation().getLatitude() + "");
-                        hashMap.put("d_longitude", mainAct.getPickUpLocation().getLongitude() + "");
+                        destLoc = pickupLat + "," + pickupLng;
+                        hashMap.put("d_latitude", pickupLat + "");
+                        hashMap.put("d_longitude", pickupLng + "");
 
                     }
 
-                    hashMap.put("s_latitude", mainAct.getPickUpLocation().getLatitude() + "");
-                    hashMap.put("s_longitude", mainAct.getPickUpLocation().getLongitude() + "");
+                    hashMap.put("s_latitude", pickupLat + "");
+                    hashMap.put("s_longitude", pickupLng + "");
 
 
                     parameters = "origin=" + originLoc + "&destination=" + destLoc;

@@ -2506,6 +2506,12 @@ public class MainActivity extends ParentActivity implements GeoMapLoader.OnMapRe
                     dialog.dismiss();
                     checkForSourceLocation(selectedViewID);
                 }
+
+                // If destination is already set, retry finding route with the new pickup location
+                if (cabSelectionFrag != null && isDestinationAdded) {
+                    Logger.d("onLocationUpdate", "Pickup location set, retrying route calculation");
+                    cabSelectionFrag.findRoute("--");
+                }
             }
             isFirstLocation = false;
 
