@@ -106,6 +106,7 @@ public class MyApp extends Application implements EventService.AppDataListener {
     private GeneralFunctions generalFun;
     private boolean isAppInBackground = true;
     public boolean isGetDetailCall = false;
+    private boolean appServiceStatus = false;
 
     private GpsReceiver mGpsReceiver;
     private ActRegisterReceiver actRegisterReceiver;
@@ -383,6 +384,15 @@ public class MyApp extends Application implements EventService.AppDataListener {
 
     public boolean isMyAppInBackGround() {
         return this.isAppInBackground;
+    }
+
+    public void setAppServiceStatus(boolean status) {
+        this.appServiceStatus = status;
+        Logger.d(TAG, "App Service Status changed to: " + status);
+    }
+
+    public boolean getAppServiceStatus() {
+        return this.appServiceStatus;
     }
 
     @Override
