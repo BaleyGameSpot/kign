@@ -81,7 +81,8 @@
                             android:ellipsize="marquee"
                             android:gravity="start|center"
                             android:marqueeRepeatLimit="marquee_forever"
-                            android:singleLine="true"
+                            android:maxLines="1"
+        android:ellipsize="end"
                             android:textColor="@color/black"
                             android:textSize="@dimen/txt_size_14"
                             app:customTypeFace="@string/system_medium" />

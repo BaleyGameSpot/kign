@@ -45,7 +45,8 @@
                 android:inputType="textNoSuggestions"
                 android:padding="5dp"
                 android:paddingEnd="25dp"
-                android:singleLine="true"
+                android:maxLines="1"
+        android:ellipsize="end"
                 android:textAlignment="viewStart"
                 android:textSize="@dimen/txt_size_16" />
 
