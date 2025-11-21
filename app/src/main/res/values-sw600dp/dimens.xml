@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Tablet-specific dimensions for better UI on larger screens -->
+
+    <!-- Text sizes - slightly larger for tablets -->
+    <dimen name="txt_size_24">@dimen/_28ssp</dimen>
+    <dimen name="txt_size_20">@dimen/_22ssp</dimen>
+    <dimen name="txt_size_18">@dimen/_20ssp</dimen>
+    <dimen name="txt_size_17">@dimen/_19ssp</dimen>
+    <dimen name="txt_size_16">@dimen/_18ssp</dimen>
+    <dimen name="txt_size_15">@dimen/_17ssp</dimen>
+    <dimen name="txt_size_14">@dimen/_16ssp</dimen>
+    <dimen name="txt_size_12">@dimen/_14ssp</dimen>
+    <dimen name="txt_size_10">@dimen/_12ssp</dimen>
+
+    <!-- Button heights - adequate touch targets for tablets -->
+    <dimen name="all_btn_height">@dimen/_48sdp</dimen>
+    <dimen name="all_btn_height5">@dimen/_52sdp</dimen>
+    <dimen name="all_btn_height1">@dimen/_56sdp</dimen>
+
+    <!-- Edit box and text view heights -->
+    <dimen name="all_EditBox_height">@dimen/_68sdp</dimen>
+    <dimen name="all_TxtView_height">@dimen/_68sdp</dimen>
+
+    <!-- Spacing and margins - more generous on tablets -->
+    <dimen name="fab_margin">@dimen/_20sdp</dimen>
+    <dimen name="card_padding">@dimen/_24sdp</dimen>
+
+    <!-- Grid and icon sizes - larger for tablets -->
+    <dimen name="category_grid_size">@dimen/_80sdp</dimen>
+    <dimen name="category_grid_size_more">@dimen/_110sdp</dimen>
+    <dimen name="restaurant_img_size_home_screen">@dimen/_100sdp</dimen>
+    <dimen name="restaurant_img_size_home_screen_new">@dimen/_80sdp</dimen>
+    <dimen name="before_after_img_size">@dimen/_130sdp</dimen>
+</resources>

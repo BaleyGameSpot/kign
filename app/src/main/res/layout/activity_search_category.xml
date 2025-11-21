@@ -60,7 +60,8 @@
                             android:backgroundTint="#f1f1f1"
                             android:includeFontPadding="false"
                             android:imeOptions="actionDone"
-                            android:singleLine="true"
+                            android:maxLines="1"
+        android:ellipsize="end"
                             android:textAlignment="viewStart"
                             android:textSize="@dimen/_12ssp" />
 

@@ -91,7 +91,8 @@
                             android:drawableTint="@color/white"
                             android:ellipsize="end"
                             android:gravity="start|center"
-                            android:singleLine="true"
+                            android:maxLines="1"
+        android:ellipsize="end"
 
                             android:text="Enter Location..."
                             android:textAlignment="viewStart"
@@ -162,7 +163,8 @@
                                 android:drawableTint="@color/black"
                                 android:ellipsize="end"
                                 android:gravity="start|center"
-                                android:singleLine="true"
+                                android:maxLines="1"
+        android:ellipsize="end"
 
                                 android:textAlignment="viewStart"
                                 android:textColor="@color/black"
