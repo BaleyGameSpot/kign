@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Material Design Colors -->
+    <color name="colorPrimary">#00351b</color> <!-- Primary brand color - dark green -->
+    <color name="colorPrimaryDark">#001a0d</color> <!-- Darker variant for status bar -->
+    <color name="colorAccent">#ffca0d</color> <!-- Accent color - golden yellow -->
+
     <!-- Theme configuration -->
     <color name="appThemeColor_1">#00351b</color> <!--used for bg-->
     <color name="appThemeColor_2">#ffca0d</color> <!--used for bg-->
