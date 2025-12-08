@@ -20,3 +20,6 @@ render.experimental.xml
 # OS-specific files
 .DS_Store
 Thumbs.db
+
+# Database files (unzipped from database.zip)
+database.sql
