@@ -4,6 +4,10 @@
  * Add, Edit, and View vehicle categories
  */
 
+// Enable error reporting for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 // Database configuration - UPDATE THESE VALUES
 define('DB_HOST', 'localhost');
 define('DB_USER', 'your_username');
@@ -28,132 +32,132 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_category'])) {
     try {
         // Get next available ID
         $result = $conn->query("SELECT MAX(iVehicleCategoryId) as max_id FROM vehicle_category");
+        if (!$result) {
+            throw new Exception("Failed to get max ID: " . $conn->error);
+        }
         $row = $result->fetch_assoc();
         $next_id = ($row['max_id'] ?? 0) + 1;
 
-        // Prepare all values (131 columns total)
-        $values = [
-            $next_id,
+        // Escape all values
+        $esc = function($val) use ($conn) {
+            return $conn->real_escape_string($val);
+        };
 
-            // vCategory (25 languages) - Fields 2-26
-            $_POST['vCategory_EN'] ?? '',
-            $_POST['vCategory_ZHCN'] ?? '',
-            $_POST['vCategory_CS'] ?? '',
-            $_POST['vCategory_FI'] ?? '',
-            $_POST['vCategory_DA'] ?? '',
-            $_POST['vCategory_FR'] ?? '',
-            $_POST['vCategory_IW'] ?? '',
-            $_POST['vCategory_HI'] ?? '',
-            $_POST['vCategory_PL'] ?? '',
-            $_POST['vCategory_RU'] ?? '',
-            $_POST['vCategory_TR'] ?? '',
-            $_POST['vCategory_KO'] ?? '',
-            $_POST['vCategory_TL'] ?? '',
-            $_POST['vCategory_MS'] ?? '',
-            $_POST['vCategory_RO'] ?? '',
-            $_POST['vCategory_PT'] ?? '',
-            $_POST['vCategory_EL'] ?? '',
-            $_POST['vCategory_NL'] ?? '',
-            $_POST['vCategory_AR'] ?? '',
-            $_POST['vCategory_IT'] ?? '',
-            $_POST['vCategory_SV'] ?? '',
-            $_POST['vCategory_ES'] ?? '',
-            $_POST['vCategory_NO'] ?? '',
-            $_POST['vCategory_DE'] ?? '',
-            $_POST['vCategory_TH'] ?? '',
+        // Build values array
+        $values = [];
 
-            // vCategoryTitle (25 languages) - Fields 27-51
-            '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+        // 1. ID
+        $values[] = $next_id;
 
-            // tCategoryDesc (25 languages) - Fields 52-76
-            '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+        // 2-26. vCategory (25 languages)
+        $values[] = $esc($_POST['vCategory_EN'] ?? '');
+        $values[] = $esc($_POST['vCategory_ZHCN'] ?? '');
+        $values[] = $esc($_POST['vCategory_CS'] ?? '');
+        $values[] = $esc($_POST['vCategory_FI'] ?? '');
+        $values[] = $esc($_POST['vCategory_DA'] ?? '');
+        $values[] = $esc($_POST['vCategory_FR'] ?? '');
+        $values[] = $esc($_POST['vCategory_IW'] ?? '');
+        $values[] = $esc($_POST['vCategory_HI'] ?? '');
+        $values[] = $esc($_POST['vCategory_PL'] ?? '');
+        $values[] = $esc($_POST['vCategory_RU'] ?? '');
+        $values[] = $esc($_POST['vCategory_TR'] ?? '');
+        $values[] = $esc($_POST['vCategory_KO'] ?? '');
+        $values[] = $esc($_POST['vCategory_TL'] ?? '');
+        $values[] = $esc($_POST['vCategory_MS'] ?? '');
+        $values[] = $esc($_POST['vCategory_RO'] ?? '');
+        $values[] = $esc($_POST['vCategory_PT'] ?? '');
+        $values[] = $esc($_POST['vCategory_EL'] ?? '');
+        $values[] = $esc($_POST['vCategory_NL'] ?? '');
+        $values[] = $esc($_POST['vCategory_AR'] ?? '');
+        $values[] = $esc($_POST['vCategory_IT'] ?? '');
+        $values[] = $esc($_POST['vCategory_SV'] ?? '');
+        $values[] = $esc($_POST['vCategory_ES'] ?? '');
+        $values[] = $esc($_POST['vCategory_NO'] ?? '');
+        $values[] = $esc($_POST['vCategory_DE'] ?? '');
+        $values[] = $esc($_POST['vCategory_TH'] ?? '');
 
-            // Other fields - Fields 77-131
-            $_POST['iParentId'] ?? 0,
-            $_POST['vLogo'] ?? '',
-            $_POST['vLogo1'] ?? '',
-            $_POST['vLogo2'] ?? '',
-            $_POST['vHomepageLogo'] ?? '',
-            $_POST['ePriceType'] ?? 'Service',
-            $_POST['eBeforeUpload'] ?? 'No',
-            $_POST['eAfterUpload'] ?? 'No',
-            $_POST['iDisplayOrder'] ?? 1,
-            $_POST['eStatus'] ?? 'Active',
-            $_POST['eShowType'] ?? 'Icon',
-            $_POST['eMaterialCommision'] ?? 'No',
-            $_POST['vBannerImage'] ?? '',
-            $_POST['eCatType'] ?? 'ServiceProvider',
-            $_POST['eSubCatType'] ?? '',
-            $_POST['eFor'] ?? '',
-            $_POST['eDeliveryType'] ?? '',
-            $_POST['iServiceId'] ?? 0,
-            $_POST['tBannerButtonText'] ?? '{}',
-            $_POST['eDetailPageView'] ?? '',
-            $_POST['fCommision'] ?? 0.00,
-            $_POST['fWaitingFees'] ?? 0.00,
-            $_POST['iWaitingFeeTimeLimit'] ?? 0,
-            $_POST['fCancellationFare'] ?? 0.00,
-            $_POST['iCancellationTimeLimit'] ?? 0,
-            $_POST['iMasterVehicleCategoryId'] ?? 0,
-            $_POST['iDisplayOrderHomepage'] ?? 1,
-            $_POST['lCatDescHomepage'] ?? '{}',
-            $_POST['vCatDescbtnHomepage'] ?? '{}',
-            $_POST['vCatNameHomepage'] ?? '{}',
-            $_POST['vCatSloganHomepage'] ?? '{}',
-            $_POST['vCatTitleHomepage'] ?? '{}',
-            $_POST['vHomepageBanner'] ?? '',
-            $_POST['vServiceCatTitleHomepage'] ?? '{}',
-            $_POST['vServiceHomepageBanner'] ?? '',
-            $_POST['eCatViewType'] ?? 'Icon',
-            $_POST['tListDescription'] ?? '{}',
-            $_POST['vListLogo'] ?? '',
-            $_POST['vListLogo1'] ?? '',
-            $_POST['vListLogo2'] ?? '',
-            $_POST['vListLogo3'] ?? '',
-            $_POST['eOTPCodeEnable'] ?? 'No',
-            $_POST['ePromoteBanner'] ?? 'No',
-            $_POST['vPromoteBannerImage'] ?? '',
-            $_POST['tPromoteBannerTitle'] ?? '{}',
-            $_POST['vHomepageLogoOurServices'] ?? '',
-            $_POST['eVideoConsultEnable'] ?? 'No',
-            $_POST['eVideoConsultServiceCharge'] ?? 0.00,
-            $_POST['eVideoServiceDescription'] ?? '',
-            $_POST['fCommissionVideoConsult'] ?? 0.00,
-            $_POST['vIconDetails'] ?? '',
-            $_POST['eForMedicalService'] ?? 'No',
-            $_POST['tMedicalServiceInfo'] ?? '',
-            $_POST['vServiceImage'] ?? '',
-            $_POST['iDisplayOrderVC'] ?? 0
-        ];
+        // 27-51. vCategoryTitle (25 empty strings)
+        for ($i = 0; $i < 25; $i++) $values[] = '';
 
-        // Create placeholders
-        $placeholders = str_repeat('?,', count($values) - 1) . '?';
+        // 52-76. tCategoryDesc (25 empty strings)
+        for ($i = 0; $i < 25; $i++) $values[] = '';
 
-        // Prepare statement
-        $sql = "INSERT INTO vehicle_category VALUES ($placeholders)";
-        $stmt = $conn->prepare($sql);
+        // 77-131. Other fields
+        $values[] = (int)($_POST['iParentId'] ?? 0);
+        $values[] = $esc($_POST['vLogo'] ?? '');
+        $values[] = $esc($_POST['vLogo1'] ?? '');
+        $values[] = $esc($_POST['vLogo2'] ?? '');
+        $values[] = $esc($_POST['vHomepageLogo'] ?? '');
+        $values[] = $esc($_POST['ePriceType'] ?? 'Service');
+        $values[] = $esc($_POST['eBeforeUpload'] ?? 'No');
+        $values[] = $esc($_POST['eAfterUpload'] ?? 'No');
+        $values[] = (int)($_POST['iDisplayOrder'] ?? 1);
+        $values[] = $esc($_POST['eStatus'] ?? 'Active');
+        $values[] = $esc($_POST['eShowType'] ?? 'Icon');
+        $values[] = $esc($_POST['eMaterialCommision'] ?? 'No');
+        $values[] = $esc($_POST['vBannerImage'] ?? '');
+        $values[] = $esc($_POST['eCatType'] ?? 'ServiceProvider');
+        $values[] = $esc($_POST['eSubCatType'] ?? '');
+        $values[] = $esc($_POST['eFor'] ?? '');
+        $values[] = $esc($_POST['eDeliveryType'] ?? '');
+        $values[] = (int)($_POST['iServiceId'] ?? 0);
+        $values[] = $esc($_POST['tBannerButtonText'] ?? '{}');
+        $values[] = $esc($_POST['eDetailPageView'] ?? '');
+        $values[] = (float)($_POST['fCommision'] ?? 0.00);
+        $values[] = (float)($_POST['fWaitingFees'] ?? 0.00);
+        $values[] = (int)($_POST['iWaitingFeeTimeLimit'] ?? 0);
+        $values[] = (float)($_POST['fCancellationFare'] ?? 0.00);
+        $values[] = (int)($_POST['iCancellationTimeLimit'] ?? 0);
+        $values[] = (int)($_POST['iMasterVehicleCategoryId'] ?? 0);
+        $values[] = (int)($_POST['iDisplayOrderHomepage'] ?? 1);
+        $values[] = $esc($_POST['lCatDescHomepage'] ?? '{}');
+        $values[] = $esc($_POST['vCatDescbtnHomepage'] ?? '{}');
+        $values[] = $esc($_POST['vCatNameHomepage'] ?? '{}');
+        $values[] = $esc($_POST['vCatSloganHomepage'] ?? '{}');
+        $values[] = $esc($_POST['vCatTitleHomepage'] ?? '{}');
+        $values[] = $esc($_POST['vHomepageBanner'] ?? '');
+        $values[] = $esc($_POST['vServiceCatTitleHomepage'] ?? '{}');
+        $values[] = $esc($_POST['vServiceHomepageBanner'] ?? '');
+        $values[] = $esc($_POST['eCatViewType'] ?? 'Icon');
+        $values[] = $esc($_POST['tListDescription'] ?? '{}');
+        $values[] = $esc($_POST['vListLogo'] ?? '');
+        $values[] = $esc($_POST['vListLogo1'] ?? '');
+        $values[] = $esc($_POST['vListLogo2'] ?? '');
+        $values[] = $esc($_POST['vListLogo3'] ?? '');
+        $values[] = $esc($_POST['eOTPCodeEnable'] ?? 'No');
+        $values[] = $esc($_POST['ePromoteBanner'] ?? 'No');
+        $values[] = $esc($_POST['vPromoteBannerImage'] ?? '');
+        $values[] = $esc($_POST['tPromoteBannerTitle'] ?? '{}');
+        $values[] = $esc($_POST['vHomepageLogoOurServices'] ?? '');
+        $values[] = $esc($_POST['eVideoConsultEnable'] ?? 'No');
+        $values[] = (float)($_POST['eVideoConsultServiceCharge'] ?? 0.00);
+        $values[] = $esc($_POST['eVideoServiceDescription'] ?? '');
+        $values[] = (float)($_POST['fCommissionVideoConsult'] ?? 0.00);
+        $values[] = $esc($_POST['vIconDetails'] ?? '');
+        $values[] = $esc($_POST['eForMedicalService'] ?? 'No');
+        $values[] = $esc($_POST['tMedicalServiceInfo'] ?? '');
+        $values[] = $esc($_POST['vServiceImage'] ?? '');
+        $values[] = (int)($_POST['iDisplayOrderVC'] ?? 0);
 
-        if (!$stmt) {
-            throw new Exception("Prepare failed: " . $conn->error);
+        // Build SQL with proper quoting
+        $sql_values = [];
+        foreach ($values as $val) {
+            if (is_int($val) || is_float($val)) {
+                $sql_values[] = $val;
+            } else {
+                $sql_values[] = '"' . $val . '"';
+            }
         }
 
-        // Create types string (all strings except numbers)
-        $types = 'i' . str_repeat('s', 25) . str_repeat('s', 25) . str_repeat('s', 25) .
-                 'isssssssissssssssddddddiisssssssssssssssssdsddsssss';
+        $sql = "INSERT INTO vehicle_category VALUES(" . implode(',', $sql_values) . ")";
 
-        // Bind parameters
-        $stmt->bind_param($types, ...$values);
-
-        // Execute
-        if ($stmt->execute()) {
+        // Execute query
+        if ($conn->query($sql)) {
             $message = "✅ Category added successfully! ID: " . $next_id;
-            // Clear form
-            $_POST = [];
+            $_POST = []; // Clear form
         } else {
-            throw new Exception("Execute failed: " . $stmt->error);
+            throw new Exception("Execute failed: " . $conn->error);
         }
-
-        $stmt->close();
 
     } catch (Exception $e) {
         $error = "❌ Error: " . $e->getMessage();
